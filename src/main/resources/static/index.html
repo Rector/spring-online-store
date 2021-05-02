@@ -16,13 +16,46 @@
 
 <div class="container" ng-controller="indexController">
     <h1>Online Store</h1>
-    <div>
-        <h5 ng-repeat="p in products">
-            {{p.id + ' ' + p.title + ' ' + p.price}}
-        </h5>
-    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in products">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="clickOnProduct(p)">Console info??</button>
+                <button class="btn btn-danger" ng-click="pingProduct(p.id)">Ping</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
     <button class="btn btn-primary" ng-click="init()">Refresh</button>
+
+    <div>
+        <form novalidate ng-submit="createNewProduct()">
+            <div class="mb-3">
+                <label for="inputTitle" class="form-label">Title</label>
+                <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle" aria-describedby="titleHelp">
+            </div>
+            <div class="mb-3">
+                <label for="inputPrice" class="form-label">Price</label>
+                <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice" aria-describedby="priceHelp">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
 </div>
 </body>
 </html>

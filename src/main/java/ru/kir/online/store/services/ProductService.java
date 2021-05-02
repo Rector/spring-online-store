@@ -27,12 +27,10 @@ public class ProductService {
     }
 
     @Transactional
-    public Optional<Product> updated(Product product) {
+    public Optional<Product> update(Product product) {
         Optional<Product> currentProduct = productRepository.findById(product.getId());
 
         if (currentProduct.isPresent()) {
-            currentProduct.get().setTitle(product.getTitle());
-            currentProduct.get().setPrice(product.getPrice());
             productRepository.save(currentProduct.get());
         }
 
