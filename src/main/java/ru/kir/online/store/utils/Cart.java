@@ -17,4 +17,16 @@ public class Cart {
     }
 
 
+    public void addProduct(Product product){
+        items.add(product);
+    }
+
+    public void deleteAllProducts(){
+        items.clear();
+    }
+
+    public List<Product> getAllProducts(){
+        return items;
+    }
+
 }

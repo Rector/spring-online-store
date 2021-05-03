@@ -32,14 +32,15 @@
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-danger" ng-click="clickOnProduct(p)">Console info??</button>
-                <button class="btn btn-danger" ng-click="pingProduct(p.id)">Ping</button>
+                <button class="btn btn-danger" ng-click="addProductToCart(p.id, p.title, p.price)">Add Product to Cart</button>
             </td>
         </tr>
         </tbody>
     </table>
 
     <button class="btn btn-primary" ng-click="init()">Refresh</button>
+    <br>
+    <br>
 
     <div>
         <form novalidate ng-submit="createNewProduct()">
@@ -54,7 +55,28 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <br>
+    <br>
 
+    <h3>Product Cart</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="pCart in productsToCart">
+            <td>{{pCart.id}}</td>
+            <td>{{pCart.title}}</td>
+            <td>{{pCart.price}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" ng-click="clearCart()">Clear Cart</button>
 
 </div>
 </body>

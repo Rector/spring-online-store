@@ -2,11 +2,11 @@ package ru.kir.online.store.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.kir.online.store.models.Product;
 import ru.kir.online.store.utils.Cart;
+
+import java.util.List;
 
 
 @RestController
@@ -16,8 +16,20 @@ import ru.kir.online.store.utils.Cart;
 public class CartController {
     private final Cart cart;
 
-    @GetMapping("/ping")
-    public void ping(@RequestParam Long id) {
-        log.info("ping: " + id);
+    @GetMapping
+    public List<Product> getAllProductToCart(){
+        return cart.getAllProducts();
     }
+
+    @GetMapping("/add")
+    public void addProductToCart(@RequestParam Long id, @RequestParam String title, @RequestParam int price){
+        Product product = new Product(id, title, price);
+        cart.addProduct(product);
+    }
+
+    @DeleteMapping
+    public void clearCart(){
+        cart.deleteAllProducts();
+    }
+
 }

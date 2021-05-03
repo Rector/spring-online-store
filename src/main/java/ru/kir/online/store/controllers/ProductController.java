@@ -51,11 +51,6 @@ public class ProductController {
         return productService.update(product).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + product.getId()));
     }
 
-    @DeleteMapping
-    public void deleteAllProducts() {
-        productService.deleteAll();
-    }
-
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteById(id);

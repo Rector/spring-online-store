@@ -19,22 +19,33 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
             });
     };
 
-    $scope.clickOnProduct = function (product) {
-        console.log(product);
-    }
+    $scope.initCart = function () {
+        $http.get(contextPath + '/api/v1/cart')
+            .then(function (response) {
+                $scope.productsToCart = response.data;
+            });
+    };
 
-    $scope.pingProduct = function (productId) {
+    $scope.addProductToCart = function (productId, productTitle, productPrice) {
         $http({
-            url: contextPath + '/api/v1/cart/ping',
+            url: contextPath + '/api/v1/cart/add',
             method: 'GET',
             params: {
-                id: productId,
-                temp: 'empty'
+                    id: productId,
+                    title: productTitle,
+                    price: productPrice
             }
-        }).then(function (response) {
-            console.log("OK");
+            }).then(function (response) {
+                $scope.initCart();
         });
-    }
+     };
+
+    $scope.clearCart = function(){
+        $http.delete(contextPath + '/api/v1/cart');
+        $scope.initCart();
+    };
 
     $scope.init();
+
+    $scope.initCart();
 });

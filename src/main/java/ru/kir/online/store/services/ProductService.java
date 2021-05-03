@@ -29,16 +29,11 @@ public class ProductService {
     @Transactional
     public Optional<Product> update(Product product) {
         Optional<Product> currentProduct = productRepository.findById(product.getId());
-
         if (currentProduct.isPresent()) {
-            productRepository.save(currentProduct.get());
+            productRepository.save(product);
         }
 
         return currentProduct;
-    }
-
-    public void deleteAll() {
-        productRepository.deleteAll();
     }
 
     public void deleteById(Long id) {
