@@ -1,17 +1,28 @@
 package ru.kir.online.store.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.kir.online.store.dtos.ProductDto;
+import ru.kir.online.store.error_handling.InvalidDataException;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.error_handling.StoreError;
+import ru.kir.online.store.models.Category;
 import ru.kir.online.store.models.Product;
+import ru.kir.online.store.services.CategoryService;
 import ru.kir.online.store.services.ProductService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,35 +31,30 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.findAll();
+    public Page<ProductDto> getAllProducts(@RequestParam(name = "p", defaultValue = "1") int page) {
+        Page<Product> productsPage = productService.findPage(page - 1, 4);
+        Page<ProductDto> dtoPage = new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
+        return dtoPage;
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
+    public ProductDto getProductById(@PathVariable Long id) {
+        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
+        return new ProductDto(product);
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewProduct(@RequestBody Product product) {
-        List<String> errors = new ArrayList<>();
-        if (product.getTitle().length() < 3) {
-            errors.add("Too short title");
-        }
-        if (product.getPrice() < 1) {
-            errors.add("Invalid product price");
-        }
-        if (errors.size() > 0) {
-            return new ResponseEntity<>(new StoreError(HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
-        }
+    public ProductDto createNewProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
 
-        Product out = productService.save(product);
-        return new ResponseEntity<>(out, HttpStatus.CREATED);
+            throw new InvalidDataException( bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
+        }
+        return productService.createNewProduct(productDto);
     }
 
     @PutMapping
-    public Product updateProduct(@RequestBody Product product) {
-        return productService.update(product).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + product.getId()));
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
+        return productService.updateProduct(productDto);
     }
 
     @DeleteMapping("/{id}")
