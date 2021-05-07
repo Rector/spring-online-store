@@ -11,7 +11,6 @@ import ru.kir.online.store.models.Category;
 import ru.kir.online.store.models.Product;
 import ru.kir.online.store.repositories.ProductRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

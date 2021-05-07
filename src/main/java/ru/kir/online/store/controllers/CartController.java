@@ -3,6 +3,8 @@ package ru.kir.online.store.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.kir.online.store.dtos.CartDto;
+import ru.kir.online.store.dtos.ProductDto;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.models.Product;
 import ru.kir.online.store.services.ProductService;
@@ -20,21 +22,19 @@ public class CartController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProductsToCart(){
-        return cart.getAllProducts();
+    public List<ProductDto> getAllProductsToCart(){
+        return new CartDto(cart).getProductsDto();
     }
-
-//    @GetMapping("/add")
-//    public void addProductToCart(@RequestParam Long id, @RequestParam String title, @RequestParam int price){
-//        Product product = new Product(id, title, price);
-//        cart.addProduct(product);
-//    }
 
     @GetMapping("/add")
     public void addProductToCart(@RequestParam Long id){
-        Product product = productService.findById(id).get();
-//        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
+        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
         cart.addProduct(product);
+    }
+
+    @GetMapping("/sum")
+    public Integer sumProductsToCart(){
+        return cart.getSum();
     }
 
     @GetMapping("/clear")

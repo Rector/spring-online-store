@@ -3,8 +3,6 @@ package ru.kir.online.store.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -12,16 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.kir.online.store.dtos.ProductDto;
 import ru.kir.online.store.error_handling.InvalidDataException;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
-import ru.kir.online.store.error_handling.StoreError;
-import ru.kir.online.store.models.Category;
 import ru.kir.online.store.models.Product;
-import ru.kir.online.store.services.CategoryService;
 import ru.kir.online.store.services.ProductService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,7 +37,6 @@ public class ProductController {
     @PostMapping
     public ProductDto createNewProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-
             throw new InvalidDataException( bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
         }
         return productService.createNewProduct(productDto);

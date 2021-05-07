@@ -33,4 +33,7 @@ public class Cart {
         return Collections.unmodifiableList(items);
     }
 
+    public int getSum() {
+        return sum;
+    }
 }

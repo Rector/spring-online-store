@@ -40,26 +40,12 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
             });
     };
 
-    $scope.initCart = function () {
+    $scope.loadCart = function () {
         $http.get(contextPath + '/api/v1/cart')
             .then(function (response) {
                 $scope.productsToCart = response.data;
             });
     };
-
-//    $scope.addProductToCart = function (productId, productTitle, productPrice) {
-//        $http({
-//            url: contextPath + '/api/v1/cart/add',
-//            method: 'GET',
-//            params: {
-//                    id: productId,
-//                    title: productTitle,
-//                    price: productPrice
-//            }
-//            }).then(function (response) {
-//                $scope.initCart();
-//        });
-//     };
 
     $scope.addProductToCart = function (productId) {
         $http({
@@ -69,7 +55,9 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 id: productId
             }
             }).then(function (response) {
-                $scope.initCart();
+                $scope.loadCart();
+                $scope.totalSumProductsToCart = 'Total price products to Cart: ';
+                $scope.loadSumProductsToCart();
         });
     };
 
@@ -77,20 +65,31 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         $http.get(contextPath + '/api/v1/cart/clear')
             .then(function (response) {
                 $scope.productsToCart = null;
-                $scope.initCart();
+                $scope.sumProductsToCart = null;
+                $scope.totalSumProductsToCart = null;
+
+                $scope.loadCart();
             });
     };
 
-//    $scope.generatePagesIndexes = function (startPage, endPage) {
-//        let arr = [];
-//        for (let i = startPage; i < endPage + 1; i++) {
-//            arr.push(i);
-//        }
-//        return arr;
-//    };
+    $scope.generatePagesIndexes = function (startPage, endPage) {
+        let arr = [];
+        for (let i = startPage; i < endPage + 1; i++) {
+            arr.push(i);
+        }
+        return arr;
+    };
+
+
+    $scope.loadSumProductsToCart = function(){
+        $http.get(contextPath + '/api/v1/cart/sum')
+            .then(function(response){
+                $scope.sumProductsToCart = response.data;
+            });
+    };
 
 
     $scope.loadPage(1);
 
-    $scope.initCart();
+    $scope.loadCart();
 });

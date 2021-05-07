@@ -34,7 +34,6 @@
             <td>{{p.categoryTitle}}</td>
             <td>{{p.price}}</td>
             <td>
-<!--                <button class="btn btn-danger" ng-click="addProductToCart(p.id, p.title, p.price)">Add Product to Cart</button>-->
                 <button class="btn btn-danger" ng-click="addProductToCart(p.id)">Add Product to Cart</button>
             </td>
         </tr>
@@ -85,6 +84,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Title</th>
+            <th scope="col">Category</th>
             <th scope="col">Price</th>
         </tr>
         </thead>
@@ -92,8 +92,23 @@
         <tr ng-repeat="pCart in productsToCart">
             <td>{{pCart.id}}</td>
             <td>{{pCart.title}}</td>
+            <td>{{pCart.categoryTitle}}</td>
             <td>{{pCart.price}}</td>
         </tr>
+
+        <br>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <b>{{totalSumProductsToCart}}</b>
+            </td>
+            <td>
+                <b>{{sumProductsToCart}}</b>
+            </td>
+        </tr>
+
+
         </tbody>
     </table>
 
