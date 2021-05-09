@@ -1,30 +1,21 @@
 package ru.kir.online.store.dtos;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.kir.online.store.models.Product;
 import ru.kir.online.store.utils.Cart;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class CartDto {
     private List<ProductDto> productsDto;
+    private int sum;
 
     public CartDto(Cart cart){
-        List<Product> products = cart.getAllProducts();
-        productsDto = new ArrayList<>(products.size());
-        for(int i = 0; i < products.size(); i++){
-            ProductDto productDto = new ProductDto(products.get(i));
-            productsDto.add(productDto);
-        }
-    }
-
-    public List<ProductDto> getProductsDto() {
-        return Collections.unmodifiableList(productsDto);
+        this.productsDto = cart.getItems().stream().map(ProductDto::new).collect(Collectors.toList());
+        this.sum = cart.getSum();
     }
 
 }
