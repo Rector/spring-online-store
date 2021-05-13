@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
+import ru.kir.online.store.models.OrderItem;
 import ru.kir.online.store.models.Product;
 import ru.kir.online.store.services.ProductService;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,8 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Cart {
     private final ProductService productService;
-    private List<Product> items;
-    private int sum;
+    private List<OrderItem> items;
+    private BigDecimal sum;
 
     @PostConstruct
     public void init() {
@@ -27,15 +29,23 @@ public class Cart {
 
 
     public void addProduct(Long id) {
+        for(OrderItem orderItem : items){
+            if(orderItem.getProduct().getId().equals(id)){
+                orderItem.incrementQuantity();
+                recalculate();
+                return;
+            }
+        }
+
         Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + id + " (add to Cart)"));
-        items.add(product);
+        items.add(new OrderItem(product));
         recalculate();
     }
 
     private void recalculate() {
-        sum = 0;
-        for (Product p : items) {
-            sum += p.getPrice();
+        sum = BigDecimal.ZERO;
+        for (OrderItem oi : items) {
+            sum = sum.add(oi.getTotalPrice());
         }
     }
 
@@ -48,7 +58,7 @@ public class Cart {
         items.removeIf(p -> p.getId().equals(id));
     }
 
-    public List<Product> getItems() {
+    public List<OrderItem> getItems() {
         return Collections.unmodifiableList(items);
     }
 

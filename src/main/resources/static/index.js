@@ -1,4 +1,4 @@
-angular.module('app', []).controller('indexController', function ($scope, $http) {
+angular.module('app', ['ngStorage']).controller('indexController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/store';
 
     $scope.loadPage = function (page) {
@@ -73,8 +73,51 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         return arr;
     };
 
+    $scope.tryToAuth = function () {
+        $http.post(contextPath + '/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.storeOnlineCurrentUser = {username: $scope.user.username, token: response.da  };
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+                }
+            }, function errorCallback(response) {
+            });
+    };
+
+    $scope.tryToLogout = function () {
+        $scope.clearUser();
+    };
+
+    $scope.clearUser = function () {
+        delete $localStorage.storeOnlineCurrentUser;
+        $http.defaults.headers.common.Authorization = '';
+    };
+
+    $scope.isUserLoggedIn = function () {
+        if ($localStorage.storeOnlineCurrentUser) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.whoAmI = function () {
+        $http({
+            url: contextPath + '/api/v1/users/me',
+            method: 'GET'
+        }).then(function (response) {
+            alert(response.data.username + ' ' + response.data.email);
+        });
+    };
+
+    if ($localStorage.storeOnlineCurrentUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.storeOnlineCurrentUser.token;
+   }
+
 
     $scope.loadPage(1);
-
     $scope.loadCart();
 });
