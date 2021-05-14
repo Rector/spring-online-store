@@ -40,14 +40,16 @@
                     </form>
                 </li>
                 <li class="nav-item" ng-if="isUserLoggedIn()">
-                    <button class="btn btn-outline-secondary" ng-click="whoAmI()">Who am i?</button>
 
+                    <span style="font-weight: bold; font-size: 20px;">
+                        &nbsp&nbsp&nbsp&nbsp{{'username: ' + username}}
+                    </span>
+                    &nbsp&nbsp&nbsp&nbsp
                     <button class="btn btn-outline-secondary" ng-click="tryToLogout()">Logout</button>
                 </li>
             </ul>
         </div>
     </nav>
-
 
     <table class="table">
         <thead>
@@ -110,24 +112,44 @@
                 {{oi.quantity}}
                 <button class="btn btn-primary" ng-click="addProductToCart(oi.productId)">+</button>
             </td>
-            <td>{{oi.pricePerProduct + ' x ' + oi.quantity + ' = ' + oi.totalPrice}}</td>
+            <td>{{oi.pricePerProduct + ' x ' + oi.quantity + ' = ' + oi.totalPrice + ' rub.'}}</td>
         </tr>
 
         <br>
         <tr style="font-weight: bold">
-            <td>
-                {{totalSumProductsToCart}}
-            </td>
+            <td>{{totalSumProductsToCart}}</td>
             <td></td>
-            <td>
-                {{cartDto.sum}}
-            </td>
+            <td>{{cartDto.sum}}</td>
         </tr>
 
         </tbody>
     </table>
 
-    <button class="btn btn-primary" ng-click="clearCart()">Clear Cart</button>
+    <br>
+    <button class="btn btn-outline-primary" ng-click="clearCart()">Clear Cart</button>
+
+    <p></p>
+    <br>
+    <button class="btn btn-primary" ng-click="createNewOrder()">Create new Order</button>
+
+    <p></p>
+    <h3>Order</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="oi in orderItemDtos">
+            <td>{{oi.productTitle}}</td>
+            <td>{{oi.quantity}}</td>
+            <td>{{oi.pricePerProduct + ' x ' + oi.quantity + ' = ' + oi.totalPrice + ' rub.'}}</td>
+        </tr>
+        </tbody>
+    </table>
 
 </div>
 </body>

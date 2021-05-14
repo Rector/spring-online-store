@@ -22,9 +22,6 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
             }
 
             $scope.paginationArray = $scope.generatePagesIndexes(minPageIndex, maxPageIndex);
-
-            console.log("PAGE FROM BACKEND")
-            console.log($scope.productsPage);
         });
     };
 
@@ -78,7 +75,9 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.storeOnlineCurrentUser = {username: $scope.user.username, token: response.da  };
+                    $localStorage.storeOnlineCurrentUser = {username: $scope.user.username, token: response.data.token};
+
+                    $scope.username = $scope.user.username;
 
                     $scope.user.username = null;
                     $scope.user.password = null;
@@ -104,13 +103,12 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         }
     };
 
-    $scope.whoAmI = function () {
-        $http({
-            url: contextPath + '/api/v1/users/me',
-            method: 'GET'
-        }).then(function (response) {
-            alert(response.data.username + ' ' + response.data.email);
-        });
+    $scope.createNewOrder = function () {
+        $http.get(contextPath + '/api/v1/orders')
+            .then(function (response) {
+                $scope.orderItemDtos = response.data;
+                $scope.clearCart();
+            });
     };
 
     if ($localStorage.storeOnlineCurrentUser) {

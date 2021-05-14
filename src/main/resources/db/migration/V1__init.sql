@@ -64,9 +64,17 @@ VALUES
 ('Snickers', 4000.30, 2),
 ('Boots', 3500.99, 2);
 
+CREATE TABLE orders (
+    id                      bigserial PRIMARY KEY,
+    title                   VARCHAR(255),
+    created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE order_items (
     id                      bigserial PRIMARY KEY,
     product_id              bigint REFERENCES products(id),
+    order_id                bigint REFERENCES orders(id),
     quantity                INT,
     price_per_product       NUMERIC (8, 2),
     total_price             NUMERIC (8, 2),
