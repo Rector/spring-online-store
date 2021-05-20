@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.models.Order;
 import ru.kir.online.store.models.OrderItem;
+import ru.kir.online.store.models.User;
 import ru.kir.online.store.repositories.OrderRepository;
 import ru.kir.online.store.utils.Cart;
 
@@ -18,23 +19,20 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final Cart cart;
 
-    @Transactional
-    public Order createNewOrder(){
+    public List<Order> findAllByUser(User user){
+        return orderRepository.findAllByUser(user);
+    }
+
+    public Order createOrderForCurrentUser(User user){
         Order order = new Order();
-        List<OrderItem> orderItems = new ArrayList<>(cart.getItems());
-
-        if(orderItems.size() == 0){
-            throw new ResourceNotFoundException("Product Cart clean: (add Order)");
+        order.setUser(user);
+        order.setPrice(cart.getSum());
+        for(OrderItem oi : cart.getItems()){
+            oi.setOrder(order);
         }
-        order.setTitle("Order: " + (Math.round(Math.random() * 100_000)));
-        order.setOrderItems(orderItems);
-        orderRepository.save(order);
-
-        for(OrderItem orderItem : order.getOrderItems()){
-            orderItem.setOrder(order);
-        }
-
+        order = orderRepository.save(order);
         cart.deleteAllProducts();
         return order;
     }
+
 }

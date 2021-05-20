@@ -66,7 +66,8 @@ VALUES
 
 CREATE TABLE orders (
     id                      bigserial PRIMARY KEY,
-    title                   VARCHAR(255),
+    user_id                 bigint REFERENCES users(id),
+    price                   NUMERIC(8, 2),
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

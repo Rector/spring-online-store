@@ -1,13 +1,14 @@
 package ru.kir.online.store.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.kir.online.store.dtos.OrderItemDto;
-import ru.kir.online.store.models.Order;
+import org.springframework.web.bind.annotation.*;
+import ru.kir.online.store.dtos.OrderDto;
+import ru.kir.online.store.models.User;
 import ru.kir.online.store.services.OrderService;
+import ru.kir.online.store.services.UserService;
 
+import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,12 +17,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final UserService userService;
 
-    @GetMapping
-    public List<OrderItemDto> createOrder(){
-        Order order = orderService.createNewOrder();
-        List<OrderItemDto> orderItemDtos = order.getOrderItems().stream().map(OrderItemDto::new).collect(Collectors.toList());
-        return orderItemDtos;
+    @PostMapping
+    public void createNewOrder(Principal principal){
+        User user = userService.findByUsername(principal.getName()).get();
+        orderService.createOrderForCurrentUser(user);
     }
 
+    @GetMapping
+    @Transactional
+    public List<OrderDto> getAllOrdersForCurrentUser(Principal principal){
+        User user = userService.findByUsername(principal.getName()).get();
+        return orderService.findAllByUser(user).stream().map(OrderDto::new).collect(Collectors.toList());
+    }
 }
