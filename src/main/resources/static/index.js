@@ -26,17 +26,6 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
     };
 
 
-//    $scope.createNewProduct = function () {
-//        $http.post(contextPath + '/api/v1/products', $scope.newProduct)
-//            .then(function successCallback(response) {
-//                $scope.loadPage(1);
-//                $scope.newProduct = null;
-//            }, function errorCallback(response) {
-//                console.log(response.data);
-//                alert('Error: ' + response.data.messages);
-//            });
-//    };
-
     $scope.loadCart = function () {
         $http.get(contextPath + '/api/v1/cart')
             .then(function (response) {
@@ -106,13 +95,13 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
     };
 
     $scope.createNewOrder = function () {
-        $http({
-            url: contextPath + '/api/v1/orders',
-            method: 'POST',
-        }).then(function (response) {
-            $scope.showMyOrders();
-            $scope.loadCart();
-        });
+        $http.post(contextPath + '/api/v1/orders', $scope.deliveryAddressAndPhone)
+            .then(function(response) {
+                $scope.showMyOrders();
+                $scope.loadCart();
+
+                $scope.deliveryAddressAndPhone = null;
+            });
     };
 
     $scope.showMyOrders = function () {
@@ -124,11 +113,11 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         });
     };
 
+
     if ($localStorage.storeOnlineCurrentUser) {
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.storeOnlineCurrentUser.token;
         $scope.showMyOrders();
    }
-
 
     $scope.loadPage(1);
     $scope.loadCart();

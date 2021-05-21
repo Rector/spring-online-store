@@ -68,6 +68,8 @@ CREATE TABLE orders (
     id                      bigserial PRIMARY KEY,
     user_id                 bigint REFERENCES users(id),
     price                   NUMERIC(8, 2),
+    delivery_address        VARCHAR(255),
+    phone                   VARCHAR(50),
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

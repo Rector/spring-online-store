@@ -1,12 +1,13 @@
 package ru.kir.online.store.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.kir.online.store.dtos.UserDto;
+import ru.kir.online.store.dtos.UserRegisterDto;
 import ru.kir.online.store.models.User;
 import ru.kir.online.store.services.UserService;
 
@@ -18,9 +19,13 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public void register(@RequestBody UserDto userDto){
-   //     userDto.setEmail(passwordEncoder.encode(userDto.getEmail())); // encode email to bcrypt
-//        сделать то же самое для userRegisterDto и для пароля + дать роль
+    public UserRegisterDto register(@RequestBody UserRegisterDto userRegisterDto){
+        userRegisterDto.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
+        userService.createNewUserWithRoleUser(userRegisterDto);
+
+        User user = userService.findByUsername(userRegisterDto.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not registered", userRegisterDto.getUsername())));
+        return new UserRegisterDto(user.getUsername(), user.getPassword(), user.getEmail());
     }
 
 }
