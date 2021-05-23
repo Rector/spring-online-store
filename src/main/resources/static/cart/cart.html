@@ -1,0 +1,50 @@
+<p></p>
+<h3>Product Cart</h3>
+<table class="table" ng-show="cartDto.productsDto.length > 0">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="oi in cartDto.productsDto">
+        <td>{{oi.productTitle}}</td>
+        <td>
+            {{oi.quantity}}
+            <button class="btn btn-primary" ng-click="addProductToCart(oi.productId)">+</button>
+        </td>
+        <td>{{oi.pricePerProduct + ' x ' + oi.quantity + ' = ' + oi.totalPrice + ' rub.'}}</td>
+    </tr>
+
+    <br>
+    <tr style="font-weight: bold">
+        <td>{{totalSumProductsToCart}}</td>
+        <td></td>
+        <td>{{cartDto.sum}}</td>
+    </tr>
+
+    </tbody>
+</table>
+
+<span ng-show="cartDto.productsDto.length == 0">Your Product Cart is Empty</span>
+<br>
+<button class="btn btn-outline-primary" ng-click="clearCart()" ng-show="cartDto.productsDto.length > 0">Clear Cart</button>
+
+<p></p>
+<div ng-show="isUserLoggedIn()">
+    <p></p>
+    <h4>Formalization Order</h4>
+    <form novalidate ng-submit="createNewOrder()">
+        <div class="mb-3">
+            <label for="inputDeliveryAddress" class="form-label">Delivery Address</label>
+            <input type="text" class="form-control" ng-model="deliveryAddressAndPhone.deliveryAddress" id="inputDeliveryAddress" aria-describedby="deliveryAddressHelp">
+        </div>
+        <div class="mb-3">
+            <label for="inputPhone" class="form-label">Phone</label>
+            <input type="text" class="form-control" ng-model="deliveryAddressAndPhone.phone" id="inputPhone" aria-describedby="phoneHelp">
+        </div>
+        <button type="submit" class="btn btn-primary">Formalize Order</button>
+    </form>
+</div>

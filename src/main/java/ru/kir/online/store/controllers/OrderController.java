@@ -3,6 +3,7 @@ package ru.kir.online.store.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.kir.online.store.dtos.DeliveryAddressAndPhoneDto;
 import ru.kir.online.store.dtos.OrderDto;
@@ -11,7 +12,6 @@ import ru.kir.online.store.models.User;
 import ru.kir.online.store.services.OrderService;
 import ru.kir.online.store.services.UserService;
 
-import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;

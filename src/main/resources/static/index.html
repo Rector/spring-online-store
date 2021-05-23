@@ -9,168 +9,55 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="index.js"></script>
 </head>
 
 <body>
 
-<div class="container" ng-controller="indexController">
+<div class="container">
+    <div ng-controller="indexController">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/" style="font-weight: bold;">Online Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/cart">Cart</a>
+                    </li>
+                    <li class="nav-item" ng-show="!isUserLoggedIn()">
+                        <form class="align-middle" ng-submit="tryToAuth()">
+                            <div class="input-group-prepend">
+                                <input id="navLoginField" class="form-control" ng-model="user.username" type="text"
+                                       aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-    <p></p>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <span style="font-weight: bold; font-size: 24px;">Online Store</span>
-                </li>
-                <li class="nav-item" ng-show="!isUserLoggedIn()">
-                    <form class="align-middle" ng-submit="tryToAuth()">
-                        <div class="input-group-prepend">
-                            <input id="navLoginField" class="form-control" ng-model="user.username" type="text"
-                                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                                <input id="navPasswordField" class="form-control" ng-model="user.password" type="password"
+                                       aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-                            <input id="navPasswordField" class="form-control" ng-model="user.password" type="password"
-                                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
-
-                            <button id="navLoginSubmit" class="btn btn-outline-warning btn-sm"
-                                    style="margin-left: 10px;" type="submit">Log in
-                            </button>
-                        </div>
-                    </form>
-                </li>
-                <li class="nav-item" ng-if="isUserLoggedIn()">
-
-                    <span style="font-weight: bold; font-size: 20px;">
-                        &nbsp&nbsp&nbsp&nbsp{{'username: ' + username}}
-                    </span>
-                    &nbsp&nbsp&nbsp&nbsp
-                    <button class="btn btn-outline-secondary" ng-click="tryToLogout()">Logout</button>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Category</th>
-            <th scope="col">Price</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in productsPage.content">
-            <td>{{p.id}}</td>
-            <td>{{p.title}}</td>
-            <td>{{p.categoryTitle}}</td>
-            <td>{{p.price}}</td>
-            <td>
-                <button class="btn btn-outline-primary" ng-click="addProductToCart(p.id)">Add Product to Cart</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
-                <a class="page-link" ng-click="loadPage(1)">To Beginning</a>
-            </li>
-
-            <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
-                <a class="page-link" ng-click="loadPage(productsPage.number)">Prev.</a>
-            </li>
-
-            <li ng-class="productsPage.number == pageIndex - 1 ? 'page-item active' : 'page-item'"
-                ng-repeat="pageIndex in paginationArray">
-                <a class="page-link" ng-click="loadPage(pageIndex)">{{pageIndex}}</a>
-            </li>
-
-            <li ng-class="productsPage.last ? 'page-item disabled' : 'page-item'">
-                <a class="page-link" ng-click="loadPage(productsPage.number + 2)">Next</a>
-            </li>
-        </ul>
-    </nav>
-
-    <p></p>
-    <h3>Product Cart</h3>
-    <table class="table" ng-if="cartDto.productsDto.length > 0">
-        <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="oi in cartDto.productsDto">
-            <td>{{oi.productTitle}}</td>
-            <td>
-                {{oi.quantity}}
-                <button class="btn btn-primary" ng-click="addProductToCart(oi.productId)">+</button>
-            </td>
-            <td>{{oi.pricePerProduct + ' x ' + oi.quantity + ' = ' + oi.totalPrice + ' rub.'}}</td>
-        </tr>
-
-        <br>
-        <tr style="font-weight: bold">
-            <td>{{totalSumProductsToCart}}</td>
-            <td></td>
-            <td>{{cartDto.sum}}</td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <span ng-if="cartDto.productsDto.length == 0">Your Product Cart is Empty</span>
-    <br>
-    <button class="btn btn-outline-primary" ng-click="clearCart()" ng-if="cartDto.productsDto.length > 0">Clear Cart</button>
-
-    <div ng-show="isUserLoggedIn()">
-        <p></p>
-        <h4>Formalization Order</h4>
-        <form novalidate ng-submit="createNewOrder()">
-            <div class="mb-3">
-                <label for="inputDeliveryAddress" class="form-label">Delivery Address</label>
-                <input type="text" class="form-control" ng-model="deliveryAddressAndPhone.deliveryAddress" id="inputDeliveryAddress" aria-describedby="deliveryAddressHelp">
+                                <button id="navLoginSubmit" class="btn btn-outline-warning btn-sm"
+                                        style="margin-left: 10px;" type="submit">Log in
+                                </button>
+                            </div>
+                        </form>
+                    </li>
+                    <li class="nav-item" ng-show="isUserLoggedIn()">
+                        <button class="btn btn-outline-secondary" ng-click="tryToLogout()">Logout</button>
+                    </li>
+                </ul>
             </div>
-            <div class="mb-3">
-                <label for="inputPhone" class="form-label">Phone</label>
-                <input type="text" class="form-control" ng-model="deliveryAddressAndPhone.phone" id="inputPhone" aria-describedby="phoneHelp">
-            </div>
-            <button type="submit" class="btn btn-primary">Formalize Order</button>
-        </form>
+        </nav>
     </div>
 
-    <div ng-if="isUserLoggedIn()">
-        <p></p>
-        <h3>My Orders</h3>
-        <span ng-if="myOrders.length == 0">You have not made any Orders yet</span>
-        <table class="table" ng-if="myOrders.length > 0">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col">Delivery Address</th>
-                <th scope="col">Phone</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="orderDto in myOrders">
-                <td>{{orderDto.id}}</td>
-                <td>{{orderDto.description}}</td>
-                <td>{{orderDto.price}}</td>
-                <td>{{orderDto.deliveryAddress}}</td>
-                <td>{{orderDto.phone}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <ng-view></ng-view>
 
+    <script src="index.js"></script>
+    <script src="home/home.js"></script>
+    <script src="products/products.js"></script>
+    <script src="cart/cart.js"></script>
 </div>
 </body>
 </html>

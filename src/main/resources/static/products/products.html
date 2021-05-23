@@ -1,0 +1,70 @@
+<p></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="p in productsPage.content">
+        <td>{{p.id}}</td>
+        <td>{{p.title}}</td>
+        <td>{{p.categoryTitle}}</td>
+        <td>{{p.price}}</td>
+        <td>
+            <button class="btn btn-outline-primary" ng-click="addProductToCart(p.id)">To Cart</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+            <a class="page-link" ng-click="loadPage(1)">To Beginning</a>
+        </li>
+
+        <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+            <a class="page-link" ng-click="loadPage(productsPage.number)">Prev.</a>
+        </li>
+
+        <li ng-class="productsPage.number == pageIndex - 1 ? 'page-item active' : 'page-item'"
+            ng-repeat="pageIndex in paginationArray">
+            <a class="page-link" ng-click="loadPage(pageIndex)">{{pageIndex}}</a>
+        </li>
+
+        <li ng-class="productsPage.last ? 'page-item disabled' : 'page-item'">
+            <a class="page-link" ng-click="loadPage(productsPage.number + 2)">Next</a>
+        </li>
+    </ul>
+</nav>
+
+<div ng-show="isUserLoggedIn()">
+    <p></p>
+    <h3>My Orders</h3>
+    <span ng-show="myOrders.length == 0">You have not made any Orders yet</span>
+    <table class="table" ng-show="myOrders.length > 0">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Delivery Address</th>
+            <th scope="col">Phone</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="orderDto in myOrders">
+            <td>{{orderDto.id}}</td>
+            <td>{{orderDto.description}}</td>
+            <td>{{orderDto.price}}</td>
+            <td>{{orderDto.deliveryAddress}}</td>
+            <td>{{orderDto.phone}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
