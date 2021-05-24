@@ -56,18 +56,5 @@ angular.module('app').controller('productsController', function ($scope, $http, 
         return arr;
     };
 
-    $scope.showMyOrders = function () {
-        $http({
-            url: contextPath + '/api/v1/orders',
-            method: 'GET',
-        }).then(function (response) {
-            $scope.myOrders = response.data;
-        });
-    };
-
-    if($scope.isUserLoggedIn()){
-        $scope.showMyOrders();
-    };
-
     $scope.loadPage(1);
 });
