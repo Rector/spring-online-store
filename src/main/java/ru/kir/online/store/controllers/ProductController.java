@@ -3,6 +3,7 @@ package ru.kir.online.store.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +12,7 @@ import ru.kir.online.store.dtos.ProductDto;
 import ru.kir.online.store.error_handling.InvalidDataException;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.models.Product;
+import ru.kir.online.store.repositories.specifications.ProductSpecifications;
 import ru.kir.online.store.services.ProductService;
 
 import java.util.stream.Collectors;
@@ -22,10 +24,12 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public Page<ProductDto> getAllProducts(@RequestParam(name = "p", defaultValue = "1") int page) {
-        Page<Product> productsPage = productService.findPage(page - 1, 4);
-        Page<ProductDto> dtoPage = new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
-        return dtoPage;
+    public Page<ProductDto> getAllProducts(@RequestParam MultiValueMap<String, String> params,
+                                           @RequestParam(name = "p", defaultValue = "1") int page) {
+        if (page < 1) {
+            page = 1;
+        }
+        return productService.findAll(ProductSpecifications.build(params), page, 10);
     }
 
     @GetMapping("/{id}")
