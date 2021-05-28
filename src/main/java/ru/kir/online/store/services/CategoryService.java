@@ -3,12 +3,8 @@ package ru.kir.online.store.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kir.online.store.models.Category;
-import ru.kir.online.store.models.Product;
 import ru.kir.online.store.repositories.CategoryRepository;
-import ru.kir.online.store.repositories.ProductRepository;
 
-
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @PropertySource("classpath:app.properties")
-@EnableAspectJAutoProxy
 public class SpringOnlineStoreApplication {
 
 	public static void main(String[] args) {
