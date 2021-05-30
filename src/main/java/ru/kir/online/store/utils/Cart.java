@@ -25,4 +25,20 @@ public class Cart implements Serializable {
         items = new ArrayList<>();
     }
 
+    public void recalculate() {
+        sum = BigDecimal.ZERO;
+        for (OrderItem oi : items) {
+            sum = sum.add(oi.getTotalPrice());
+        }
+    }
+
+    public void deleteAllProducts() {
+       items.clear();
+       recalculate();
+    }
+
+    public void removeFromCart(Long id){
+        items.removeIf(p -> p.getId().equals(id));
+    }
+
 }

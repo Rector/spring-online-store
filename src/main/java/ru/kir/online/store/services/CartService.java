@@ -19,34 +19,14 @@ public class CartService {
         for(OrderItem orderItem : cart.getItems()){
             if(orderItem.getProduct().getId().equals(id)){
                 orderItem.incrementQuantity();
-                recalculate();
+                cart.recalculate();
                 return;
             }
         }
 
         Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + id + " (add to Cart)"));
         cart.getItems().add(new OrderItem(product));
-        recalculate();
-    }
-
-    private void recalculate() {
-        cart.setSum(BigDecimal.ZERO);
-        for (OrderItem oi : cart.getItems()) {
-            cart.setSum(cart.getSum().add(oi.getTotalPrice()));
-        }
-    }
-
-    public void deleteAllProducts() {
-        cart.getItems().clear();
-        recalculate();
-    }
-
-    public void removeFromCart(Long id){
-        cart.getItems().removeIf(p -> p.getId().equals(id));
-    }
-
-    public Cart getCart() {
-        return cart;
+        cart.recalculate();
     }
 
 }
