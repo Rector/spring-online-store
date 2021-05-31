@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ProductRepositorySoap extends JpaRepository<ProductEntity, Long> {
     Optional<ProductEntity> findByTitle(String title);
+    Optional<ProductEntity> findById(Long id);
 }

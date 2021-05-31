@@ -5,10 +5,7 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import ru.kir.online.store.soap.generated_data.products.GetAllProductsRequest;
-import ru.kir.online.store.soap.generated_data.products.GetAllProductsResponse;
-import ru.kir.online.store.soap.generated_data.products.GetProductByTitleRequest;
-import ru.kir.online.store.soap.generated_data.products.GetProductByTitleResponse;
+import ru.kir.online.store.soap.generated_data.products.*;
 import ru.kir.online.store.soap.services.ProductServiceSoap;
 
 @Endpoint
@@ -22,6 +19,14 @@ public class ProductEndpoint {
     public GetProductByTitleResponse getProductByTitle(@RequestPayload GetProductByTitleRequest request) {
         GetProductByTitleResponse response = new GetProductByTitleResponse();
         response.setProduct(productServiceSoap.getProductByTitle(request.getTitle()));
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getProductByIdRequest")
+    @ResponsePayload
+    public GetProductByIdResponse getProductById(@RequestPayload GetProductByIdRequest request) {
+        GetProductByIdResponse response = new GetProductByIdResponse();
+        response.setProduct(productServiceSoap.getProductById(request.getId()));
         return response;
     }
 

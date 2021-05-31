@@ -34,19 +34,19 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = "", propOrder = {
     "product"
 })
-@XmlRootElement(name = "getProductByTitleResponse")
-public class GetProductByTitleResponse {
+@XmlRootElement(name = "getProductByIdResponse")
+public class GetProductByIdResponse {
 
     @XmlElement(required = true)
     protected Product product;
 
     /**
      * Gets the value of the product property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Product }
-     *     
+     *
      */
     public Product getProduct() {
         return product;
@@ -54,7 +54,7 @@ public class GetProductByTitleResponse {
 
     /**
      * Sets the value of the product property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Product }

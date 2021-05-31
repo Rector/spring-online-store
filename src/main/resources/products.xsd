@@ -12,11 +12,27 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getProductByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getAllProductsRequest">
         <xs:complexType/>
     </xs:element>
 
     <xs:element name="getProductByTitleResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="product" type="tns:product"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProductByIdResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="product" type="tns:product"/>

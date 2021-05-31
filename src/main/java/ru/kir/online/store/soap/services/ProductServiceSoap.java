@@ -30,7 +30,11 @@ public class ProductServiceSoap {
     }
 
     public Product getProductByTitle(String title){
-        return productRepositorySoap.findByTitle(title).map(functionProductEntityToSoap).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + title + " (for search)"));
+        return productRepositorySoap.findByTitle(title).map(functionProductEntityToSoap).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists title: " + title + " (for search)"));
+    }
+
+    public Product getProductById(Long id){
+        return productRepositorySoap.findById(id).map(functionProductEntityToSoap).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + id + " (for search)"));
     }
 
 }

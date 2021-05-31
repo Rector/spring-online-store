@@ -8,7 +8,10 @@
 
 package ru.kir.online.store.soap.generated_data.products;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -21,7 +24,7 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="product" type="{http://www.kir.ru/spring/ws/products}product"/&gt;
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -32,36 +35,27 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "product"
+    "id"
 })
-@XmlRootElement(name = "getProductByTitleResponse")
-public class GetProductByTitleResponse {
+@XmlRootElement(name = "getProductByIdRequest")
+public class GetProductByIdRequest {
 
-    @XmlElement(required = true)
-    protected Product product;
+    protected long id;
 
     /**
-     * Gets the value of the product property.
+     * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Product }
-     *     
      */
-    public Product getProduct() {
-        return product;
+    public long getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the product property.
+     * Sets the value of the id property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Product }
-     *     
      */
-    public void setProduct(Product value) {
-        this.product = value;
+    public void setId(long value) {
+        this.id = value;
     }
 
 }
