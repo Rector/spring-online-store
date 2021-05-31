@@ -35,5 +35,4 @@ public class Category implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
  }

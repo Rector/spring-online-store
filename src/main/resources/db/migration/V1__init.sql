@@ -84,3 +84,28 @@ CREATE TABLE order_items (
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE categories_soap (
+    id                      bigserial PRIMARY KEY,
+    title                   VARCHAR(255)
+);
+
+INSERT INTO categories_soap (title)
+VALUES
+('Clothes'),
+('Shoes');
+
+CREATE TABLE products_soap (
+    id                      bigserial PRIMARY KEY,
+    title                   VARCHAR(255),
+    price                   NUMERIC(8, 2),
+    category_id             bigint REFERENCES categories_soap(id)
+);
+
+INSERT INTO products_soap (title, price, category_id)
+VALUES
+('Jeans', 5000.80, 1),
+('Singlet', 1000, 1),
+('Jacket', 9000.45, 1),
+('Snickers', 4000.30, 2),
+('Boots', 3500.99, 2);
