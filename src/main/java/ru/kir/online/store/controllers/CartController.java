@@ -12,12 +12,11 @@ import ru.kir.online.store.utils.Cart;
 @RequiredArgsConstructor
 @Slf4j
 public class CartController {
-    private final Cart cart;
     private final CartService cartService;
 
     @GetMapping
     public CartDto getAllProductsToCart(){
-        return new CartDto(cart);
+        return cartService.getCartDto();
     }
 
     @GetMapping("/add/{productId}")
@@ -27,7 +26,7 @@ public class CartController {
     
     @GetMapping("/clear")
     public void clearCart(){
-        cart.deleteAllProducts();
+        cartService.deleteAllProducts();
     }
 
 }
