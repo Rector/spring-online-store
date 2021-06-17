@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping("/register")
     public UserRegisterDto register(@RequestBody UserRegisterDto userRegisterDto){
         userRegisterDto.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
-        userService.createNewUserWithRoleUser(userRegisterDto);
+        userService.createNewUserWithRole(userRegisterDto);
 
         User user = userService.findByUsername(userRegisterDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not registered", userRegisterDto.getUsername())));

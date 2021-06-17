@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public void createNewUserWithRoleUser(UserRegisterDto userRegisterDto){
+    public void createNewUserWithRole(UserRegisterDto userRegisterDto){
         User user = new User();
         user.setUsername(userRegisterDto.getUsername());
         user.setPassword(userRegisterDto.getPassword());

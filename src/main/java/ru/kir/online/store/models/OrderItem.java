@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "order_items")
 @Data
 @NoArgsConstructor
-public class OrderItem implements Serializable {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -45,15 +45,4 @@ public class OrderItem implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public OrderItem(Product product){
-        this.product = product;
-        this.quantity = 1;
-        this.pricePerProduct = product.getPrice();
-        this.totalPrice = product.getPrice();
-    }
-
-    public void incrementQuantity(){
-        this.quantity++;
-        this.totalPrice = this.pricePerProduct.multiply(new BigDecimal(this.quantity));
-    }
 }

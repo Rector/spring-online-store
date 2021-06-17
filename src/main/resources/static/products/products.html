@@ -40,12 +40,13 @@
         <td>{{p.price}}</td>
         <td>
             <button class="btn btn-outline-primary" ng-click="addProductToCart(p.id)">To Cart</button>
+            <button class="btn btn-danger" ng-click="showProductInfo(p.id)">See product comments</button>
         </td>
     </tr>
     </tbody>
 </table>
 
-<nav aria-label="Page navigation">
+<nav aria-label="Page navigation" ng-show="productsPage.totalPages > 1">
     <ul class="pagination">
         <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
             <a class="page-link" ng-click="loadPage(1)">To Beginning</a>

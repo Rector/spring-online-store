@@ -1,8 +1,8 @@
 package ru.kir.online.store.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import ru.kir.online.store.dtos.CartDto;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.models.Product;
 import ru.kir.online.store.utils.Cart;
@@ -11,21 +11,53 @@ import ru.kir.online.store.utils.Cart;
 @RequiredArgsConstructor
 public class CartService {
     private final ProductService productService;
-    private final Cart cart;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public void addProduct(Long productId) {
-        if (cart.addProduct(productId)) {
+    public void addToCart(String cartId, Long productId) {
+        Cart cart = getCurrentCart(cartId);
+        if (cart.addToCart(productId)) {
+            save(cartId, cart);
             return;
         }
-        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + productId + " (add to Cart)"));
-        cart.addProduct(product);
+        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product with id " + productId + " is missed. (Add to cart)"));
+        cart.addToCart(product);
+        save(cartId, cart);
     }
 
-    public void deleteAllProducts() {
-        cart.deleteAllProducts();
+    public void decrementProduct(String cartId, Long productId) {
+        Cart cart = getCurrentCart(cartId);
+        cart.decrementProduct(productId);
+        save(cartId, cart);
     }
 
-    public CartDto getCartDto(){
-        return new CartDto(cart);
+    public boolean isCartExists(String cartId) {
+        return redisTemplate.hasKey("cart_" + cartId);
     }
+
+    public Cart getCurrentCart(String cartId) {
+        if (!redisTemplate.hasKey("cart_" + cartId)) {
+            redisTemplate.opsForValue().set("cart_" + cartId, new Cart());
+        }
+        Cart cart = (Cart) redisTemplate.opsForValue().get("cart_" + cartId);
+        return cart;
+    }
+
+    public void save(String cartId, Cart cart) {
+        redisTemplate.opsForValue().set("cart_" + cartId, cart);
+    }
+
+    public void clearCart(String cartId) {
+        Cart cart = getCurrentCart(cartId);
+        cart.clear();
+        save(cartId, cart);
+    }
+
+    public void merge(String userCartId, String guestCartId) {
+        Cart userCart = getCurrentCart(userCartId);
+        Cart guestCart = getCurrentCart(guestCartId);
+        userCart.merge(guestCart);
+        save(userCartId, userCart);
+        save(guestCartId, guestCart);
+    }
+
 }

@@ -1,33 +1,32 @@
 angular.module('app').controller('cartController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/store';
 
-    $scope.loadCart = function () {
-        $http.get(contextPath + '/api/v1/cart')
-            .then(function (response) {
-                $scope.cartDto = response.data;
-            });
-    };
-
-    $scope.addProductToCart = function (productId) {
-        $http.get(contextPath + '/api/v1/cart/add/' + productId)
-            .then(function (response) {
-                $scope.loadCart();
-                $scope.totalSumProductsToCart = 'Total price products to Cart: ';
+    $scope.loadCart = function (page) {
+        $http({
+            url: contextPath + '/api/v1/cart',
+            method: 'GET',
+            params: {
+                cartName: $localStorage.storeCartId
+            }
+        }).then(function (response) {
+            $scope.cartDto = response.data;
         });
     };
 
     $scope.clearCart = function(){
-        $http.get(contextPath + '/api/v1/cart/clear')
-            .then(function (response) {
-                $scope.cartDto = null;;
-                $scope.totalSumProductsToCart = null;
-
-                $scope.loadCart();
-            });
+        $http({
+            url: contextPath + '/api/v1/cart/clear',
+            method: 'GET',
+            params: {
+                cartName: $localStorage.storeCartId
+            }
+        }).then(function (response) {
+            $scope.loadCart();
+        });
     };
 
     $scope.isUserLoggedIn = function () {
-        if ($localStorage.storeOnlineCurrentUser) {
+        if ($localStorage.onlineStoreCurrentUser) {
             return true;
         } else {
             return false;
@@ -43,6 +42,31 @@ angular.module('app').controller('cartController', function ($scope, $http, $loc
             });
     };
 
-    $scope.loadCart();
+    $scope.addProductToCart = function (productId) {
+        $http({
+            url: contextPath + '/api/v1/cart/add/',
+            method: 'GET',
+            params: {
+                prodId: productId,
+                cartName: $localStorage.storeCartId
+            }
+        }).then(function (response) {
+            $scope.loadCart();
+        });
+    };
 
+    $scope.decrementProduct = function (productId) {
+        $http({
+            url: contextPath + '/api/v1/cart/dec/',
+            method: 'GET',
+            params: {
+                prodId: productId,
+                cartName: $localStorage.storeCartId
+            }
+        }).then(function (response) {
+            $scope.loadCart();
+        });
+    };
+
+    $scope.loadCart();
 });

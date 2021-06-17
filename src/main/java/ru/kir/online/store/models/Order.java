@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "orders")
 @Data
 @NoArgsConstructor
-public class Order implements Serializable {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,7 +28,7 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "order")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    private List<OrderItem> items;
 
     @Column(name = "price")
     private BigDecimal price;

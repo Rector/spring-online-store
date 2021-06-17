@@ -1,26 +1,25 @@
 <p></p>
-<div ng-show="isUserLoggedIn()">
-    <p></p>
-    <h3>My Orders</h3>
-    <span ng-show="myOrders.length == 0">You have not made any Orders yet</span>
-    <table class="table" ng-show="myOrders.length > 0">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Delivery Address</th>
-            <th scope="col">Phone</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-show="myOrders.length > 0" ng-repeat="orderDto in myOrders">
-            <td>{{orderDto.id}}</td>
-            <td>{{orderDto.description}}</td>
-            <td>{{orderDto.price}}</td>
-            <td>{{orderDto.deliveryAddress}}</td>
-            <td>{{orderDto.phone}}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+
+<p></p>
+<h3>My Orders</h3>
+<span ng-show="myOrders.length == 0">You have not made any Orders yet</span>
+<table class="table" ng-show="myOrders.length > 0">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Delivery Address</th>
+        <th scope="col">Phone</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-show="myOrders.length > 0" ng-repeat="orderDto in myOrders">
+        <td>{{orderDto.id}}</td>
+        <td>{{orderDto.description}}</td>
+        <td>{{orderDto.price}}</td>
+        <td>{{orderDto.deliveryAddress}}</td>
+        <td>{{orderDto.phone}}</td>
+    </tr>
+    </tbody>
+</table>

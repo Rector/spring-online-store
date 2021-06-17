@@ -1,6 +1,6 @@
 <p></p>
 <h3>Product Cart</h3>
-<table class="table" ng-show="cartDto.productsDto.length > 0">
+<table class="table" ng-show="cartDto.items.length > 0">
     <thead>
     <tr>
         <th scope="col">Title</th>
@@ -9,9 +9,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="oi in cartDto.productsDto">
+    <tr ng-repeat="oi in cartDto.items">
         <td>{{oi.productTitle}}</td>
         <td>
+            <button class="btn btn-danger" ng-click="decrementProduct(oi.productId)">-</button>
             {{oi.quantity}}
             <button class="btn btn-primary" ng-click="addProductToCart(oi.productId)">+</button>
         </td>
@@ -33,7 +34,7 @@
 <button class="btn btn-outline-primary" ng-click="clearCart()" ng-show="cartDto.productsDto.length > 0">Clear Cart</button>
 
 <p></p>
-<div ng-show="isUserLoggedIn()">
+<div ng-show="isUserLoggedIn() && cartDto.items.length > 0">
     <p></p>
     <h4>Formalization Order</h4>
     <form novalidate ng-submit="createNewOrder()">

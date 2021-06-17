@@ -1,8 +1,8 @@
-angular.module('app').controller('productsController', function ($scope, $http, $localStorage) {
+angular.module('app').controller('productsController', function ($scope, $http, $localStorage, $location) {
     const contextPath = 'http://localhost:8189/store';
 
     $scope.isUserLoggedIn = function () {
-        if ($localStorage.storeOnlineCurrentUser) {
+        if ($localStorage.onlineStoreCurrentUser) {
             return true;
         } else {
             return false;
@@ -44,11 +44,19 @@ angular.module('app').controller('productsController', function ($scope, $http, 
     };
 
     $scope.addProductToCart = function (productId) {
-        $http.get(contextPath + '/api/v1/cart/add/' + productId)
-            .then(function (response) {
-                $scope.loadCart();
-                $scope.totalSumProductsToCart = 'Total price products to Cart: ';
+        $http({
+            url: contextPath + '/api/v1/cart/add/',
+            method: 'GET',
+            params: {
+                prodId: productId,
+                cartName: $localStorage.storeCartId
+            }
+        }).then(function (response) {
         });
+    };
+
+    $scope.showProductInfo = function (productId) {
+        $location.path('/product_info/' + productId);
     };
 
     $scope.generatePagesIndexes = function (startPage, endPage) {

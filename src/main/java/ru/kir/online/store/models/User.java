@@ -12,7 +12,7 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name = "users")
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

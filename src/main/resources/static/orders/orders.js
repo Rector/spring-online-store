@@ -1,8 +1,8 @@
-angular.module('app').controller('ordersController', function ($scope, $http, $localStorage) {
+angular.module('app').controller('ordersController', function ($scope, $http, $localStorage, $location) {
     const contextPath = 'http://localhost:8189/store';
 
     $scope.isUserLoggedIn = function () {
-        if ($localStorage.storeOnlineCurrentUser) {
+        if ($localStorage.onlineStoreCurrentUser) {
             return true;
         } else {
             return false;
@@ -18,8 +18,9 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
         });
     };
 
-    if($scope.isUserLoggedIn()){
-        $scope.showMyOrders();
+    if(!$scope.isUserLoggedIn()){
+        $location.path('/');
     };
 
+    $scope.showMyOrders();
 });
