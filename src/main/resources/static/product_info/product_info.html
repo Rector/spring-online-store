@@ -1,3 +1,44 @@
 <p></p>
 <h3>Product information</h3>
-<h5>{{prod.title}}</h5>
+<h5></h5>
+
+<p></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{prodComments.title}}</td>
+        <td>{{prodComments.categoryTitle}}</td>
+        <td>{{prodComments.price}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<p></p>
+<table class="table" ng-show="prodComments.comments.length > 0">
+    <thead>
+    <tr>
+        <th scope="col">Product comments</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in prodComments.comments">
+        <td>{{c}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<p></p>
+<form novalidate ng-submit="loadComments(prodComments.id)">
+    <div class="mb-3">
+        <label for="inputTitle" class="form-label">Write a new comment</label>
+        <input type="text" class="form-control" ng-model="createComment.title" id="inputTitle">
+    </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+</form>

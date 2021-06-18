@@ -84,3 +84,11 @@ CREATE TABLE order_items (
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE comments (
+    id                      bigserial PRIMARY KEY,
+    title                   VARCHAR(255),
+    product_id              bigint REFERENCES products(id),
+    created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

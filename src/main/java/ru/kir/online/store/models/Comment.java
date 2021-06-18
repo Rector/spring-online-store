@@ -2,22 +2,17 @@ package ru.kir.online.store.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "products")
-@NoArgsConstructor
+@Table(name = "comments")
 @Data
-public class Product {
-
+@NoArgsConstructor
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -26,16 +21,9 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @OneToMany(mappedBy = "product")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<Comment> comments;
-
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "created_at")
     @CreationTimestamp

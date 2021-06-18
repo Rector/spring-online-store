@@ -8,6 +8,8 @@ import ru.kir.online.store.models.Product;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,10 +24,17 @@ public class ProductDto {
     private BigDecimal price;
     private String categoryTitle;
 
+    private List<String> comments;
+
     public ProductDto(Product product){
         this.id = product.getId();
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.categoryTitle = product.getCategory().getTitle();
+        this.comments = new ArrayList<>();
+        for(int i = 0; i < product.getComments().size(); i++){
+            comments.add(product.getComments().get(i).getTitle());
+        }
     }
+
 }
