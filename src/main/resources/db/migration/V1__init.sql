@@ -87,7 +87,7 @@ CREATE TABLE order_items (
 
 CREATE TABLE comments (
     id                      bigserial PRIMARY KEY,
-    title                   VARCHAR(255),
+    title                   TEXT,
     product_id              bigint REFERENCES products(id),
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
