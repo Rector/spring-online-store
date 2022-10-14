@@ -19,7 +19,8 @@ public class CartService {
             save(cartId, cart);
             return;
         }
-        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product with id " + productId + " is missed. (Add to cart)"));
+        Product product = productService.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product with id " + productId + " is missed. (Add to cart)"));
         cart.addToCart(product);
         save(cartId, cart);
     }

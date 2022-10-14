@@ -25,24 +25,24 @@ public class OrderController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> createNewOrder(Principal principal, @RequestBody DeliveryAddressAndPhoneDto deliveryAddressAndPhoneDto){
+    public ResponseEntity<?> createNewOrder(Principal principal, @RequestBody DeliveryAddressAndPhoneDto deliveryAddressAndPhoneDto) {
         User user = userService.findByUsername(principal.getName()).get();
         List<String> errors = new ArrayList<>();
 
-        if(deliveryAddressAndPhoneDto == null){
+        if (deliveryAddressAndPhoneDto == null) {
             errors.add("Delivery address and telephone are not specified");
             return new ResponseEntity<>(new StoreError(HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
         }
 
-        if(deliveryAddressAndPhoneDto.getDeliveryAddress() == null){
+        if (deliveryAddressAndPhoneDto.getDeliveryAddress() == null) {
             errors.add("Delivery address not specified");
         }
 
-        if(deliveryAddressAndPhoneDto.getPhone() == null){
+        if (deliveryAddressAndPhoneDto.getPhone() == null) {
             errors.add("Phone not specified");
         }
 
-        if(errors.size() > 0){
+        if (errors.size() > 0) {
             return new ResponseEntity<>(new StoreError(HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
         }
 
@@ -52,8 +52,12 @@ public class OrderController {
 
     @GetMapping
     @Transactional
-    public List<OrderDto> getAllOrdersForCurrentUser(Principal principal){
+    public List<OrderDto> getAllOrdersForCurrentUser(Principal principal) {
         User user = userService.findByUsername(principal.getName()).get();
-        return orderService.findAllByUser(user).stream().map(OrderDto::new).collect(Collectors.toList());
+        return orderService.findAllByUser(user)
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
     }
+
 }

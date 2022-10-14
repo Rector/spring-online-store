@@ -26,13 +26,13 @@ public class ProductDto {
 
     private List<String> comments;
 
-    public ProductDto(Product product){
+    public ProductDto(Product product) {
         this.id = product.getId();
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.categoryTitle = product.getCategory().getTitle();
         this.comments = new ArrayList<>();
-        for(int i = 0; i < product.getComments().size(); i++){
+        for (int i = 0; i < product.getComments().size(); i++) {
             comments.add(product.getComments().get(i).getTitle());
         }
     }

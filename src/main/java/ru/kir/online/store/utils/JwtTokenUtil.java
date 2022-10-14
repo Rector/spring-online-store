@@ -17,12 +17,14 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil {
+
     @Value("${jwt.secret}")
     private String secret;
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        List<String> rolesList = userDetails.getAuthorities().stream()
+        List<String> rolesList = userDetails.getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         claims.put("roles", rolesList);
@@ -57,4 +59,5 @@ public class JwtTokenUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 }

@@ -28,19 +28,23 @@ public class ProductController {
         if (page < 1) {
             page = 1;
         }
-        return productService.findAll(ProductSpecifications.build(params), page, 10);
+        return productService.findAll(ProductSpecifications.build(params), page, 5);
     }
 
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable Long id) {
-        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
+        Product product = productService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
         return new ProductDto(product);
     }
 
     @PostMapping
     public ProductDto createNewProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            throw new InvalidDataException( bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
+        if (bindingResult.hasErrors()) {
+            throw new InvalidDataException(bindingResult.getAllErrors()
+                    .stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.toList()));
         }
         return productService.createNewProduct(productDto);
     }

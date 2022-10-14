@@ -13,7 +13,6 @@ import ru.kir.online.store.models.Role;
 import ru.kir.online.store.models.User;
 import ru.kir.online.store.repositories.UserRepository;
 
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public void createNewUserWithRole(UserRegisterDto userRegisterDto){
+    public void createNewUserWithRole(UserRegisterDto userRegisterDto) {
         User user = new User();
         user.setUsername(userRegisterDto.getUsername());
         user.setPassword(userRegisterDto.getPassword());
@@ -42,11 +41,13 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+        User user = findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
+
 }

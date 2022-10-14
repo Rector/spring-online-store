@@ -14,7 +14,7 @@ public class Cart {
     private List<OrderItemDto> items;
     private BigDecimal sum;
 
-    public Cart(){
+    public Cart() {
         items = new ArrayList<>();
         sum = BigDecimal.ZERO;
     }

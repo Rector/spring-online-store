@@ -5,7 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -13,6 +12,7 @@ import java.util.Collection;
 @Data
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,4 +40,5 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 }

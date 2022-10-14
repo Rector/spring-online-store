@@ -14,12 +14,12 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/cre_com")
-    public ResponseEntity<?> createCommentByProductId(Principal principal, @RequestParam Long productId, @RequestParam String comment){
+    public ResponseEntity<?> createCommentByProductId(Principal principal, @RequestParam Long productId, @RequestParam String comment) {
         return commentService.createComment(principal.getName(), productId, comment);
     }
 
     @GetMapping("/ch_buy")
-    public Boolean checkUserBoughtProduct(Principal principal, @RequestParam Long productId){
+    public Boolean checkUserBoughtProduct(Principal principal, @RequestParam Long productId) {
         return commentService.checkUserBoughtProduct(principal.getName(), productId);
     }
 

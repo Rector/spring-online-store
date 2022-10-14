@@ -12,4 +12,5 @@ public class InvalidDataException extends RuntimeException {
     public List<String> getMessages() {
         return messages;
     }
+
 }

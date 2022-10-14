@@ -11,8 +11,10 @@ import ru.kir.online.store.repositories.RoleRepository;
 public class RoleService {
     private final RoleRepository roleRepository;
 
-    public Role findRoleByName(String name){
-        Role role = roleRepository.findByName(name).orElseThrow(() -> new ResourceNotFoundException(String.format("Role '%s' not found", name)));
+    public Role findRoleByName(String name) {
+        Role role = roleRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Role '%s' not found", name)));
         return role;
     }
+
 }

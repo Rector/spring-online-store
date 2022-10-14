@@ -28,7 +28,8 @@ public class CommentService {
 
     @Transactional
     public ResponseEntity<?> createComment(String username, Long productId, String commentText) {
-        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         List<Order> orders = orderService.findAllByUser(user);
 
         if (orders.isEmpty()) {
@@ -37,7 +38,8 @@ public class CommentService {
                     HttpStatus.FORBIDDEN);
         }
 
-        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + productId));
+        Product product = productService.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + productId));
         boolean checkBoughtProduct = false;
 
         for (int i = 0; i < orders.size(); i++) {
@@ -63,7 +65,6 @@ public class CommentService {
                     "Product comments can be left by users who have purchased this product."),
                     HttpStatus.FORBIDDEN);
         }
-
     }
 
     @Transactional

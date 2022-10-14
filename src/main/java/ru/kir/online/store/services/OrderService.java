@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kir.online.store.dtos.DeliveryAddressAndPhoneDto;
 import ru.kir.online.store.dtos.OrderItemDto;
+import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.models.Order;
 import ru.kir.online.store.models.OrderItem;
 import ru.kir.online.store.models.User;
@@ -20,7 +21,7 @@ public class OrderService {
     private final ProductService productService;
     private final CartService cartService;
 
-    public List<Order> findAllByUser(User user){
+    public List<Order> findAllByUser(User user) {
         return orderRepository.findAllByUser(user);
     }
 
@@ -39,7 +40,8 @@ public class OrderService {
             orderItem.setQuantity(o.getQuantity());
             orderItem.setPricePerProduct(o.getPricePerProduct());
             orderItem.setTotalPrice(o.getTotalPrice());
-            orderItem.setProduct(productService.findById(o.getProductId()).get());
+            orderItem.setProduct(productService.findById(o.getProductId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + o.getProductId())));
         }
         order = orderRepository.save(order);
         cart.clear();

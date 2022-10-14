@@ -30,4 +30,5 @@ public class ProductSpecifications {
         }
         return spec;
     }
+
 }
