@@ -19,7 +19,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public UserRegisterDto register(@RequestBody UserRegisterDto userRegisterDto){
+    public UserRegisterDto register(@RequestBody UserRegisterDto userRegisterDto) {
         userRegisterDto.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
         userService.createNewUserWithRole(userRegisterDto);
 

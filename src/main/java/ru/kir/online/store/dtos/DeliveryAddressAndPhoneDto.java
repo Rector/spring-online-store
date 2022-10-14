@@ -11,4 +11,5 @@ public class DeliveryAddressAndPhoneDto {
         this.deliveryAddress = deliveryAddress;
         this.phone = phone;
     }
+
 }

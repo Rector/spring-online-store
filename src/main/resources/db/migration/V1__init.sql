@@ -1,4 +1,4 @@
-create table users (
+CREATE TABLE users (
     id                      bigserial PRIMARY KEY,
     username                VARCHAR(30) NOT NULL UNIQUE,
     password                VARCHAR(80) NOT NULL,
@@ -7,7 +7,7 @@ create table users (
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-create table roles (
+CREATE TABLE roles (
     id                      bigserial PRIMARY KEY,
     name                    VARCHAR(50) NOT NULL UNIQUE,
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -20,18 +20,19 @@ CREATE TABLE users_roles (
     PRIMARY KEY (user_id, role_id)
 );
 
-insert into roles (name)
-values
+INSERT INTO roles (name)
+VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
-insert into users (username, password, email)
-values
+-- У user и admin пароль 100
+INSERT INTO users (username, password, email)
+VALUES
 ('user', '$2y$12$4g1SOm4vGFSF/CbT84nOzOyygKSuTtRshecj7HYOCC1xUPjhkVPWG', 'bob_johnson@gmail.com'),
 ('admin', '$2y$12$4g1SOm4vGFSF/CbT84nOzOyygKSuTtRshecj7HYOCC1xUPjhkVPWG', 'john_johnson@gmail.com');
 
-insert into users_roles (user_id, role_id)
-values
+INSERT INTO users_roles (user_id, role_id)
+VALUES
 (1, 1),
 (2, 2);
 
@@ -62,7 +63,12 @@ VALUES
 ('Singlet', 1000, 1),
 ('Jacket', 9000.45, 1),
 ('Snickers', 4000.30, 2),
-('Boots', 3500.99, 2);
+('Boots', 3500.99, 2),
+('Hat', 3000.01, 1),
+('Trousers', 5500, 1),
+('Shirt', 4000.55, 1),
+('Wellingtons', 6000.99, 2),
+('Slippers', 2000, 2);
 
 CREATE TABLE orders (
     id                      bigserial PRIMARY KEY,

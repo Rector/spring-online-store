@@ -21,4 +21,5 @@ public class StoreError {
         this.messages = new ArrayList<>(messages);
         this.timestamp = new Date();
     }
+
 }

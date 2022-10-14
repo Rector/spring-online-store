@@ -12,21 +12,25 @@
                 templateUrl: 'home/home.html',
                 controller: 'homeController'
             })
+            .when('/cart', {
+                            templateUrl: 'cart/cart.html',
+                            controller: 'cartController'
+            })
+            .when('/product_info/:productIdParam', {
+                templateUrl: 'product_info/product_info.html',
+                controller: 'productInfoController'
+            })
             .when('/products', {
                 templateUrl: 'products/products.html',
                 controller: 'productsController'
-            })
-            .when('/cart', {
-                templateUrl: 'cart/cart.html',
-                controller: 'cartController'
             })
             .when('/orders', {
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
             })
-            .when('/product_info/:productIdParam', {
-                templateUrl: 'product_info/product_info.html',
-                controller: 'productInfoController'
+            .when('/users/register', {
+                templateUrl: 'registration/registration_form.html',
+                controller: 'registrationFormController'
             })
             .otherwise({
                 redirectTo: '/'
@@ -75,6 +79,7 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
 
                     $scope.mergeCarts();
 
+                    $scope.userLoginShow = 'Hello, ' + $scope.user.username;
                     $scope.user.username = null;
                     $scope.user.password = null;
                 }
@@ -89,7 +94,12 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
 
     $scope.clearUser = function () {
         delete $localStorage.onlineStoreCurrentUser;
+        $scope.userLoginShow = null;
         $http.defaults.headers.common.Authorization = '';
+    };
+
+    $scope.goToRegistrationForm = function () {
+        $location.path('/users/register');
     };
 
     $scope.isUserLoggedIn = function () {
