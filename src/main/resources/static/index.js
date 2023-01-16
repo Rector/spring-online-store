@@ -13,8 +13,8 @@
                 controller: 'homeController'
             })
             .when('/cart', {
-                            templateUrl: 'cart/cart.html',
-                            controller: 'cartController'
+                templateUrl: 'cart/cart.html',
+                controller: 'cartController'
             })
             .when('/product_info/:productIdParam', {
                 templateUrl: 'product_info/product_info.html',

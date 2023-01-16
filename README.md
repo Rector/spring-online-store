@@ -1,8 +1,8 @@
-#Проект: Интернет-магазин, созданный с использованием Spring Framework.
+# Проект: Интернет-магазин, созданный с использованием Spring Framework.
 ___
-##Стек: Spring Framework, JSON Web Token, REST API, JSON, AngularJS, Redis, Flyway, H2 Database, SLF4J, Lombok.
+## Стек: Spring Framework, JSON Web Token, REST API, JSON, AngularJS, Redis, Flyway, H2 Database, SLF4J, Lombok.
 ___
-##Функционал:
+## Функционал:
 ___
 * Всем пользователям доступен просмотр каталога с товарами.
 * Для удобства просмотра, добавлена пагинация страниц.
