@@ -28,6 +28,10 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    public Optional<Product> findByIdAndUsername(Long id, String username) {
+        return productRepository.findByIdAndUsername(id, username);
+    }
+
     @Transactional
     public ProductDto createNewProduct(ProductDto productDto) {
         Product product = new Product();

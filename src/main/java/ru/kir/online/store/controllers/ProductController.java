@@ -38,6 +38,8 @@ public class ProductController {
         return new ProductDto(product);
     }
 
+//    todo добавить возможность создания продукта + фронт + видимость только для админа
+
     @PostMapping
     public ProductDto createNewProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -48,6 +50,8 @@ public class ProductController {
         }
         return productService.createNewProduct(productDto);
     }
+
+    //    todo добавить возможность изменения продукта + фронт + видимость только для админа
 
     @PutMapping
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {

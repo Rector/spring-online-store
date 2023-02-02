@@ -38,10 +38,10 @@
 </table>
 
 <p></p>
-<form novalidate ng-submit="loadComments(prod.id)" ng-show="isUserLoggedIn() && isUserBoughtProduct == true">
+<form novalidate ng-submit="createComment(prod.id)" ng-show="isUserLoggedIn() && isUserBoughtProduct == true">
     <div class="mb-3">
         <label for="inputTitle" class="form-label">Write a new comment</label>
-        <input type="text" class="form-control" ng-model="createComment.title" id="inputTitle">
+        <input type="text" class="form-control" ng-model="comment.title" id="inputTitle">
     </div>
         <button type="submit" class="btn btn-primary">Send</button>
 </form>

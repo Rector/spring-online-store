@@ -2,6 +2,7 @@ package ru.kir.online.store.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kir.online.store.dtos.DeliveryAddressAndPhoneDto;
 import ru.kir.online.store.dtos.OrderItemDto;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
@@ -25,6 +26,7 @@ public class OrderService {
         return orderRepository.findAllByUser(user);
     }
 
+    @Transactional
     public Order createOrderForCurrentUser(User user, DeliveryAddressAndPhoneDto deliveryAddressAndPhoneDto) {
         Order order = new Order();
         order.setUser(user);

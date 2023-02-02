@@ -34,17 +34,13 @@ angular.module('app').controller('productInfoController', function ($scope, $htt
         });
     };
 
-    $scope.loadComments = function (prodId) {
-        $http({
-            url: contextPath + '/api/v1/comments/cre_com',
-            method: 'GET',
-            params: {
-                productId: prodId,
-                comment: $scope.createComment.title
-            }
-        }).then(function (response) {
-            $scope.loadProduct();
-            $scope.createComment.title = null;
+    $scope.createComment = function (prodId) {
+        $scope.comment.productId = prodId;
+        $http.post(contextPath + '/api/v1/comments', $scope.comment)
+            .then(function (response) {
+                $scope.comment.productId = null;
+                $scope.comment.title = null;
+                $scope.loadProduct();
         });
     };
 

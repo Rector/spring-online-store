@@ -1,15 +1,14 @@
 package ru.kir.online.store.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private String username;
     private String email;
-
-    public UserDto(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
 
 }

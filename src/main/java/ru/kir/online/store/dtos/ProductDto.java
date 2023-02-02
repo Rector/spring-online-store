@@ -3,13 +3,14 @@ package ru.kir.online.store.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.kir.online.store.models.Comment;
 import ru.kir.online.store.models.Product;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +18,7 @@ import java.util.List;
 public class ProductDto {
     private Long id;
 
-    @Size(min = 4, max = 255, message = "Title size: 4-255")
+    @Size(min = 3, max = 255, message = "Title size: 3-255")
     private String title;
 
     @Min(value = 1, message = "Min price = 1")
@@ -31,10 +32,10 @@ public class ProductDto {
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.categoryTitle = product.getCategory().getTitle();
-        this.comments = new ArrayList<>();
-        for (int i = 0; i < product.getComments().size(); i++) {
-            comments.add(product.getComments().get(i).getTitle());
-        }
+        this.comments = product.getComments()
+                .stream()
+                .map(Comment::getTitle)
+                .collect(Collectors.toList());
     }
 
 }
