@@ -25,10 +25,12 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> getAllProducts(@RequestParam MultiValueMap<String, String> params,
                                            @RequestParam(name = "p", defaultValue = "1") int page) {
+
         if (page < 1) {
             page = 1;
         }
-        return productService.findAll(ProductSpecifications.build(params), page, 5);
+
+        return productService.findAll(ProductSpecifications.build(params), page, 5).map(ProductDto::new);
     }
 
     @GetMapping("/{id}")
@@ -37,8 +39,6 @@ public class ProductController {
                 .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + id));
         return new ProductDto(product);
     }
-
-//    todo добавить возможность создания продукта + фронт + видимость только для админа
 
     @PostMapping
     public ProductDto createNewProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
@@ -50,8 +50,6 @@ public class ProductController {
         }
         return productService.createNewProduct(productDto);
     }
-
-    //    todo добавить возможность изменения продукта + фронт + видимость только для админа
 
     @PutMapping
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {

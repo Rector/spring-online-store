@@ -1,4 +1,4 @@
-create table users (
+CREATE TABLE users (
     id                      bigserial PRIMARY KEY,
     username                VARCHAR(30) NOT NULL UNIQUE,
     password                VARCHAR(80) NOT NULL,
@@ -7,7 +7,7 @@ create table users (
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-create table roles (
+CREATE TABLE roles (
     id                      bigserial PRIMARY KEY,
     name                    VARCHAR(50) NOT NULL UNIQUE,
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -20,18 +20,18 @@ CREATE TABLE users_roles (
     PRIMARY KEY (user_id, role_id)
 );
 
-insert into roles (name)
-values
+INSERT INTO roles (name)
+VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
-insert into users (username, password, email)
-values
+INSERT INTO users (username, password, email)
+VALUES
 ('user', '$2y$12$4g1SOm4vGFSF/CbT84nOzOyygKSuTtRshecj7HYOCC1xUPjhkVPWG', 'bob_johnson@gmail.com'),
 ('admin', '$2y$12$4g1SOm4vGFSF/CbT84nOzOyygKSuTtRshecj7HYOCC1xUPjhkVPWG', 'john_johnson@gmail.com');
 
-insert into users_roles (user_id, role_id)
-values
+INSERT INTO users_roles (user_id, role_id)
+VALUES
 (1, 1),
 (2, 2);
 
@@ -60,9 +60,7 @@ INSERT INTO products (title, price, category_id)
 VALUES
 ('Jeans', 5000.80, 1),
 ('Singlet', 1000, 1),
-('Jacket', 9000.45, 1),
-('Snickers', 4000.30, 2),
-('Boots', 3500.99, 2);
+('Snickers', 4000.30, 2);
 
 CREATE TABLE orders (
     id                      bigserial PRIMARY KEY,
@@ -84,3 +82,19 @@ CREATE TABLE order_items (
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE comments (
+    id                      bigserial PRIMARY KEY,
+    title                   TEXT,
+    product_id              bigint REFERENCES products(id),
+    created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO orders (user_id, price, delivery_address, phone)
+VALUES
+(1, 5000.80, '443110, RUSSIA, Samara, 1 Lenina Avenue, apartment 5', '+79197645211');
+
+INSERT INTO order_items (product_id, order_id, quantity, price_per_product, total_price)
+VALUES
+(1, 1, 1, 5000.80, 5000.80);

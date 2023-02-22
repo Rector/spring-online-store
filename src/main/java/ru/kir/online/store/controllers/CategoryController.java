@@ -13,15 +13,15 @@ import ru.kir.online.store.services.CategoryService;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @GetMapping("{id}")
-    public CategoryDto getOneCategoryById(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public CategoryDto getCategoryById(@PathVariable Long id) {
         Category category = categoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exists: " + id));
         return new CategoryDto(category);
     }
 
-    @GetMapping()
-    public CategoryDto getOneCategoryByTitle(@RequestParam(name = "t") String title) {
+    @GetMapping
+    public CategoryDto getCategoryByTitle(@RequestParam(name = "t") String title) {
         Category category = categoryService.findByTitle(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exists: " + title));
         return new CategoryDto(category);

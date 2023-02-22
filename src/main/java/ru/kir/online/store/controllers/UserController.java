@@ -25,7 +25,12 @@ public class UserController {
 
         User user = userService.findByUsername(userRegisterDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not registered", userRegisterDto.getUsername())));
-        return new UserRegisterDto(user.getUsername(), user.getPassword(), user.getEmail());
+
+        UserRegisterDto currentUserRegisterDto = new UserRegisterDto();
+        currentUserRegisterDto.setUsername(user.getUsername());
+        currentUserRegisterDto.setEmail(user.getEmail());
+
+        return currentUserRegisterDto;
     }
 
 }

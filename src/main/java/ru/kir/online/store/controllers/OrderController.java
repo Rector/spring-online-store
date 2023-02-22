@@ -3,6 +3,7 @@ package ru.kir.online.store.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.kir.online.store.dtos.DeliveryAddressAndPhoneDto;
@@ -26,7 +27,8 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<?> createNewOrder(Principal principal, @RequestBody DeliveryAddressAndPhoneDto deliveryAddressAndPhoneDto) {
-        User user = userService.findByUsername(principal.getName()).get();
+        User user = userService.findByUsername(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", principal.getName())));
         List<String> errors = new ArrayList<>();
 
         if (deliveryAddressAndPhoneDto == null) {
@@ -53,7 +55,9 @@ public class OrderController {
     @GetMapping
     @Transactional
     public List<OrderDto> getAllOrdersForCurrentUser(Principal principal) {
-        User user = userService.findByUsername(principal.getName()).get();
+        User user = userService.findByUsername(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", principal.getName())));
+
         return orderService.findAllByUser(user)
                 .stream()
                 .map(OrderDto::new)

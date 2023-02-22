@@ -35,6 +35,7 @@ public class OrderService {
         order.setDeliveryAddress(deliveryAddressAndPhoneDto.getDeliveryAddress());
         order.setPhone(deliveryAddressAndPhoneDto.getPhone());
         order.setItems(new ArrayList<>());
+
         for (OrderItemDto o : cart.getItems()) {
             OrderItem orderItem = new OrderItem();
             order.getItems().add(orderItem);
@@ -45,6 +46,7 @@ public class OrderService {
             orderItem.setProduct(productService.findById(o.getProductId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + o.getProductId())));
         }
+
         order = orderRepository.save(order);
         cart.clear();
         cartService.save(user.getUsername(), cart);

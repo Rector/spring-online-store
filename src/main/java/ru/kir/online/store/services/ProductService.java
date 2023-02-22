@@ -20,8 +20,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public Page<ProductDto> findAll(Specification<Product> spec, int page, int pageSize) {
-        return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize)).map(ProductDto::new);
+    public Page<Product> findAll(Specification<Product> spec, int page, int pageSize) {
+        return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize));
     }
 
     public Optional<Product> findById(Long id) {
