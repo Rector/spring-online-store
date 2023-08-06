@@ -44,7 +44,7 @@ public class OrderService {
             orderItem.setPricePerProduct(o.getPricePerProduct());
             orderItem.setTotalPrice(o.getTotalPrice());
             orderItem.setProduct(productService.findById(o.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists: " + o.getProductId())));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id: '%d' does not exist", o.getProductId()))));
         }
 
         order = orderRepository.save(order);

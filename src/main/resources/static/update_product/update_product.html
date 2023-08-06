@@ -1,0 +1,20 @@
+<h3>Update product form</h3>
+
+<form ng-submit="tryToUpdateProduct()">
+    <div class="form-group">
+        <label for="inputTitle">Title</label>
+        <input class="form-control" id="inputTitle" placeholder="Enter title" ng-model="updateProduct.title" type="text">
+    </div>
+    <div class="form-group">
+        <label for="inputPrice">Price</label>
+        <input class="form-control" id="inputPrice" placeholder="Enter price" ng-model="updateProduct.price" type="number">
+    </div>
+    <div class="form-group">
+        <label for="selectCategory">Category</label>
+        <select class="form-control" id="selectCategory" ng-model="updateProduct.categoryTitle">
+            <option ng-repeat="category in categories">{{category.title}}</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update product</button>
+</form>

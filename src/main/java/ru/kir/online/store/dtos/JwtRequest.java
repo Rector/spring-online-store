@@ -1,9 +1,10 @@
 package ru.kir.online.store.dtos;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class JwtRequest {
     private String username;
     private String password;

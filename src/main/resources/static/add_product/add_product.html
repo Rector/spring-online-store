@@ -1,0 +1,20 @@
+<h3>Add new product form</h3>
+
+<form ng-submit="tryToAddProduct()">
+    <div class="form-group">
+        <label for="inputTitle">Title</label>
+        <input class="form-control" id="inputTitle" placeholder="Enter title" ng-model="addProduct.title" type="text">
+    </div>
+    <div class="form-group">
+        <label for="inputPrice">Price</label>
+        <input class="form-control" id="inputPrice" placeholder="Enter price" ng-model="addProduct.price" type="number">
+    </div>
+    <div class="form-group">
+        <label for="selectCategory">Category</label>
+        <select class="form-control" id="selectCategory" ng-model="addProduct.categoryTitle">
+            <option ng-repeat="category in categories">{{category.title}}</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add product</button>
+</form>

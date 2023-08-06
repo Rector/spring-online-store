@@ -20,7 +20,7 @@ public class CartService {
             return;
         }
         Product product = productService.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product with id " + productId + " is missed. (Add to cart)"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id: '%d' is missed. (Add to cart)", productId)));
         cart.addToCart(product);
         save(cartId, cart);
     }

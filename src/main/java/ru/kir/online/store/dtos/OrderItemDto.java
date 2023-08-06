@@ -1,13 +1,15 @@
 package ru.kir.online.store.dtos;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.kir.online.store.models.OrderItem;
 import ru.kir.online.store.models.Product;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class OrderItemDto {
     private Long productId;

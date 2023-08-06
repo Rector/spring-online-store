@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
             " AND u.username = ?2")
     Optional<Product> findByIdAndUsername(Long productId, String username);
 
+    Optional<Product> findByTitle(String title);
+
 }

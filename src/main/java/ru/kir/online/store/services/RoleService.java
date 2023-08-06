@@ -13,7 +13,7 @@ public class RoleService {
 
     public Role findRoleByName(String name) {
         Role role = roleRepository.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Role '%s' not found", name)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Role with name: '%s' not found", name)));
         return role;
     }
 

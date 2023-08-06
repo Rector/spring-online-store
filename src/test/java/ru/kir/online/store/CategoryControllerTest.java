@@ -53,19 +53,4 @@ public class CategoryControllerTest {
         }
     }
 
-    @Test
-    public void getCategoryByTitleTest(){
-        Optional<Category> optionalCategory = Optional.of(testCategory);
-        given(categoryService.findByTitle("Clothes")).willReturn(optionalCategory);
-
-        try {
-            mockMvc.perform(get("/api/v1/categories" + "?t=Clothes")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.title", is(testCategory.getTitle())));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

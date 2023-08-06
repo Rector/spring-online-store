@@ -24,6 +24,18 @@
                 templateUrl: 'products/products.html',
                 controller: 'productsController'
             })
+            .when('/add_product', {
+                templateUrl: 'add_product/add_product.html',
+                controller: 'addProductFormController'
+            })
+            .when('/update_product/:productIdParam', {
+                templateUrl: 'update_product/update_product.html',
+                controller: 'updateProductFormController'
+            })
+            .when('/product_management', {
+                templateUrl: 'product_management/product_management.html',
+                controller: 'productManagementController'
+            })
             .when('/orders', {
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
@@ -68,7 +80,16 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
             }
         }).then(function (response) {
         });
-    }
+    };
+
+    $scope.isUserWithAdminRole = function () {
+        $http({
+            url: contextPath + '/api/v1/users/ch_admin',
+            method: 'GET'
+        }).then(function (response) {
+            $localStorage.checkUserWithAdminRole = response.data;
+        });
+    };
 
     $scope.tryToAuth = function () {
         $http.post(contextPath + '/auth', $scope.user)
@@ -78,6 +99,7 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
                     $localStorage.onlineStoreCurrentUser = {username: $scope.user.username, token: response.data.token};
 
                     $scope.mergeCarts();
+                    $scope.isUserWithAdminRole();
 
                     $scope.userLoginShow = 'Hello, ' + $scope.user.username;
                     $scope.user.username = null;
@@ -89,6 +111,7 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
 
     $scope.tryToLogout = function () {
         $scope.clearUser();
+        $localStorage.checkUserWithAdminRole = false;
         $location.path('/');
     };
 
@@ -109,4 +132,13 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
             return false;
         }
     };
+
+    $scope.isCheckUserWithAdminRole = function () {
+        if ($localStorage.checkUserWithAdminRole === true) {
+            return true;
+        }
+
+        return false;
+    };
+
 });

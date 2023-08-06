@@ -39,11 +39,25 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public Boolean checkRoleAdmin(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            for (Role role : userOptional.get().getRoles()) {
+                if (role.getName().equals("ROLE_ADMIN")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username: '%s' not found", username)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 

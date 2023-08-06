@@ -1,0 +1,74 @@
+<p></p>
+<h3>Filter</h3>
+<form novalidate ng-submit="loadPage()">
+    <div class="form-group row">
+        <div class="form-group col-md-3">
+            <label for="filterTitle">Title Product</label>
+            <input class="form-control" type="text" ng-model="filter.title" id="filterTitle">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="filterMinPrice">Minimum Price</label>
+            <input class="form-control" type="number" ng-model="filter.min_price" id="filterMinPrice">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="filterMaxPrice">Maximum Price</label>
+            <input class="form-control" type="number" ng-model="filter.max_price" id="filterMaxPrice">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="filterSubmit">Filter</label>
+            <button class="form-control btn btn-primary" id="filterSubmit" type="submit">Apply</button>
+        </div>
+    </div>
+</form>
+
+<p></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="p in productsPage.content">
+        <td>{{p.id}}</td>
+        <td>{{p.title}}</td>
+        <td>{{p.categoryTitle}}</td>
+        <td>{{p.price}}</td>
+        <td>
+            <button class="btn btn-outline-primary" ng-click="goToUpdateProductForm(p.id)">Update product</button>
+            <button class="btn btn-danger" ng-click="tryToDeleteProduct(p.id)">Delete product</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p></p>
+<div>
+    <button class="btn btn-primary" ng-click="goToAddProductForm()">Add new product</button>
+</div>
+<p></p>
+
+<nav aria-label="Page navigation" ng-show="productsPage.totalPages > 1">
+    <ul class="pagination">
+        <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+            <a class="page-link" ng-click="loadPage(1)">To Beginning</a>
+        </li>
+
+        <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+            <a class="page-link" ng-click="loadPage(productsPage.number)">Prev.</a>
+        </li>
+
+        <li ng-class="productsPage.number == pageIndex - 1 ? 'page-item active' : 'page-item'"
+            ng-repeat="pageIndex in paginationArray">
+            <a class="page-link" ng-click="loadPage(pageIndex)">{{pageIndex}}</a>
+        </li>
+
+        <li ng-class="productsPage.last ? 'page-item disabled' : 'page-item'">
+            <a class="page-link" ng-click="loadPage(productsPage.number + 2)">Next</a>
+        </li>
+    </ul>
+</nav>

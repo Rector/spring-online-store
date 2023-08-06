@@ -1,18 +1,18 @@
 package ru.kir.online.store.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.kir.online.store.models.Comment;
 import ru.kir.online.store.models.Product;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto {
@@ -32,10 +32,14 @@ public class ProductDto {
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.categoryTitle = product.getCategory().getTitle();
-        this.comments = product.getComments()
-                .stream()
-                .map(Comment::getTitle)
-                .collect(Collectors.toList());
+        if (product.getComments() != null && product.getComments().size() > 0) {
+            this.comments = product.getComments()
+                    .stream()
+                    .map(Comment::getTitle)
+                    .collect(Collectors.toList());
+        } else {
+            this.comments = Collections.emptyList();
+        }
     }
 
 }

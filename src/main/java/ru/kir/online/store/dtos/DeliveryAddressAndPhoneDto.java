@@ -1,9 +1,11 @@
 package ru.kir.online.store.dtos;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class DeliveryAddressAndPhoneDto {
     private String deliveryAddress;

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kir.online.store.dtos.ProductDto;
+import ru.kir.online.store.error_handling.InvalidDataException;
 import ru.kir.online.store.error_handling.ResourceNotFoundException;
 import ru.kir.online.store.models.Category;
 import ru.kir.online.store.models.Product;
@@ -34,22 +35,43 @@ public class ProductService {
 
     @Transactional
     public ProductDto createNewProduct(ProductDto productDto) {
-        Product product = new Product();
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists product.categoryTitle = " + productDto.getCategoryTitle() + " (Product creation)"));
-        product.setCategory(category);
-        productRepository.save(product);
-        return new ProductDto(product);
+        Optional<Product> optionalProduct = productRepository.findByTitle(productDto.getTitle());
+
+        if(!optionalProduct.isPresent()) {
+            Product product = new Product();
+            product.setTitle(productDto.getTitle());
+            product.setPrice(productDto.getPrice());
+
+            Category category = categoryService.findByTitle(productDto.getCategoryTitle())
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with title: '%s' does not exist (Product creation)", productDto.getCategoryTitle())));
+
+            product.setCategory(category);
+
+            productRepository.save(product);
+            return new ProductDto(product);
+        }
+
+        throw new InvalidDataException(String.format("Product with title: '%s' already exists (Product creation)", productDto.getTitle()));
     }
 
     @Transactional
-    public ProductDto updateProduct(ProductDto productDto) {
-        Product product = productRepository.findById(productDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + productDto.getId() + " (for update)"));
+    public ProductDto updateProduct(Long id, ProductDto productDto) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id: '%d' does not exist (Product update)", productDto.getId())));
+
+        Optional<Product> optionalProduct = productRepository.findByTitle(productDto.getTitle());
+
+        if (optionalProduct.isPresent()) {
+            throw new InvalidDataException(String.format("Product with title: '%s' already exists (Product update)", productDto.getTitle()));
+        }
+
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
-        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category doesn't exists product.categoryTitle = " + productDto.getCategoryTitle() + " (for update)"));
+
+        Category category = categoryService.findByTitle(productDto.getCategoryTitle())
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with title: '%s' does not exist (Product update)", productDto.getCategoryTitle())));
         product.setCategory(category);
+
         productRepository.save(product);
         return new ProductDto(product);
     }

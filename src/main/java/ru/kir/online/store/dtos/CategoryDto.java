@@ -1,10 +1,12 @@
 package ru.kir.online.store.dtos;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.kir.online.store.models.Category;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class CategoryDto {
     private String title;

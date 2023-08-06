@@ -50,7 +50,7 @@ VALUES
 
 CREATE TABLE products (
     id                      bigserial PRIMARY KEY,
-    title                   VARCHAR(255),
+    title                   VARCHAR(255) UNIQUE,
     price                   NUMERIC(8, 2),
     category_id             bigint REFERENCES categories(id),
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
